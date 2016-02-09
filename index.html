@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>index</title>
+	
+</head>
+<body>
+	<div>
+		<label for="hour">hour</label>
+		<input type="text" name="hour" class="vmasker" data-masker-pattern="99:99:99">
+	</div>
+
+	<div>
+		<label for="date">date</label>
+		<input type="text" name="date" class="vmasker" data-masker-pattern="99/99/9999">
+	</div>
+
+	<div>
+		<label for="cep">cep</label>
+		<input type="text" name="cep" class="vmasker" data-masker-pattern="99999-999">
+	</div>
+
+	<div>
+		<label for="cep">cep called from JS</label>
+		<input type="text" name="cep" id="cep">
+	</div>
+	
+	<script src="masker.js"></script>
+	<script>
+	( function () {
+		Mask.call( document.getElementById( 'cep' ), '99999-999' );
+	})();
+	</script>
+</body>
+</html>
