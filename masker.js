@@ -16,7 +16,7 @@
 		
 		var maxLength = original_pattern.length;
 
-		var tokens = [ ':', '/', '-', '(', ')', ' ' ];
+		var tokens = [ ':', '/', '-', '(', ')', '\ ' ];
 		var addToken = null;
 
 		var verify = function () {
