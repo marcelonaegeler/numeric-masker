@@ -1,6 +1,6 @@
 ;{
 	"use strict";
-	var deniedKeys = [ 8, 9, 13, 16, 17, 18 ];
+	var deniedKeys = [ 8, 9, 13, 16, 17, 18, 37, 38, 39, 40 ];
 
 	var Mask = function ( mask ) {
 		var input = this;
@@ -16,7 +16,7 @@
 		
 		var maxLength = original_pattern.length;
 
-		var tokens = [ ':', '/', '-', '(', ')', '\ ' ];
+		var tokens = [ ':', '/', '-', '(', ')', ' ', '.' ];
 		var addToken = null;
 
 		var verify = function () {
@@ -45,28 +45,27 @@
 			/*
 			* Get the tokens
 			**/
-			var original_char = original_pattern.charAt( v.length );
-			if ( tokens.indexOf( original_char ) > -1 ) {
-				if ( deniedKeys.indexOf( event.keyCode ) === -1 ) {
+			var c = 0;
+			var vLength = v.length;
+			while ( c < original_pattern.length ) {
+				var original_char = original_pattern.charAt( vLength );
+				if ( tokens.indexOf( original_char ) > -1 && deniedKeys.indexOf( event.keyCode ) === -1 ) {
 					this.value += original_char;
+					vLength = this.value.length;
 				}
+
+				c++;
 			}
 
-			if ( this.value.length >= maxLength && deniedKeys.indexOf( event.keyCode ) === -1 ) {
+			if ( 
+				(
+					this.value.length >= maxLength // If the length is too long
+					|| /[0-9]/g.test( event.key ) === false // All chars that aren't numbers
+				)
+				&& ( deniedKeys.indexOf( event.keyCode ) === -1 ) // If it's not a special key
+				&& ( !event.altKey && !event.ctrlKey && !event.shiftKey ) // If it's not action keys
+			) {
 				return false;
-			}
-		};
-
-		/*
-		* Handle keyup
-		**/
-		this.onkeyup = function ( event ) {
-			var v = this.value;
-			var pattern = original_pattern.substr( 0, v.length ).replace( /9/g, '[0-9]' );
-			var isValid = ( new RegExp( pattern ) ).exec( v );
-
-			if ( isValid === null ) {
-				this.value = v.substr( 0, v.length - 1 );
 			}
 		};
 
