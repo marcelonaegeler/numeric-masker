@@ -35,12 +35,24 @@
 		<label for="cep">cep called from JS</label>
 		<input type="text" name="cep" id="cep">
 	</div>
-	
-	<script src="masker.js"></script>
+
+
+	<div>
+		<label for="new-phone">new phone mask</label>
+		<input type="text" name="new-phone" class="vmasker" data-masker="phone">
+	</div>
+	<div>
+		<label for="new-date">new date mask</label>
+		<input type="text" name="new-date" class="vmasker" data-masker="date">
+	</div>
+
+	<script src="masker-new.js"></script>
 	<script>
+	/*
 	( function () {
 		Mask.call( document.getElementById( 'cep' ), '99999-999' );
 	})();
+	*/
 	</script>
 </body>
 </html>

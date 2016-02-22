@@ -1,7 +1,7 @@
 ;{
 	"use strict";
 	var deniedKeys = [ 8, 9, 13, 16, 17, 18, 37, 38, 39, 40 ];
-
+	
 	var Mask = function ( mask ) {
 		var input = this;
 		
