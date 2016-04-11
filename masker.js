@@ -1,6 +1,19 @@
 ;( function () {
 	"use strict";
 
+	if ( 'undefined' === typeof Format ) {
+		var Format = {};
+		Format.money = function ( v ) {
+			v = v * 1;
+			if ( !!( v ).toLocaleString ) {
+				return ( v ).toLocaleString( 'pt-BR', { style: 'currency', currency: 'BRL' } );
+			} else {
+				// Fallback for IE
+				return [ 'R$', ( v ).toFixed( 2 ).replace( '.', ',' ) ].join( '' );
+			}
+		};
+	}
+
 	var validations = {
 
 		cep: function () {
@@ -48,6 +61,29 @@
 			this.value = v;
 		}
 
+		, money: function ( dataset ) {
+			var v = this.value;
+			v = v.replace( /\D/g, '' );
+
+			var l = v.length;
+
+			if ( l === 2 ) {
+				v = '0' + v;
+			} else if ( l === 1 ) {
+				v = '00' + v;
+			}
+			v = v.replace( /(\d{1,})(\d{2})$/g, '$1.$2' );
+			
+			if ( !v ) { v = 0; }
+			v = parseFloat( v ).toFixed( 2 );
+			
+			if ( !!dataset.maskerCurrency ) {
+				v = Format.money( v );
+			}
+
+			this.value = v;
+		}
+
 	};
 	
 	var Mask = function ( mask ) {
@@ -63,7 +99,7 @@
 		var callValidation = function ( event ) {
 
 			if ( dont_validate_keys.indexOf( event.keyCode ) === -1 ) {
-				validations[ mask ].call( this );
+				validations[ mask ].call( this, this.dataset );
 			}
 		};
 
